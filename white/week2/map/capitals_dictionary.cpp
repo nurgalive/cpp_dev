@@ -3,29 +3,12 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <vector>
-#include <sstream>
 
 using namespace std;
 
-map<char, int> BuildCharCounters(const string& s) {
-    //cout << "Size = " << m.size() << endl;
-    map<char, int> result;
-
-    for (auto c : s) {
-        ++result[c];
-    }
-
-    // printing the map
-//    for (auto [key, value] : result) {
-//        cout << key << ": " << value;
-//    }
-
-    return result;
-}
 
 // method to add new country and its capital or change capital of the country
-void ChangeCapital(map<string,string>& m, string country, string new_capital) {
+void ChangeCapital(map<string,string>& m, const string& country, const string& new_capital) {
     bool is_country_exist = false;
     bool is_capital_same = false;
     for (auto [key, value] : m) {
@@ -40,16 +23,16 @@ void ChangeCapital(map<string,string>& m, string country, string new_capital) {
     }
 
     // if there is no country
-    if (is_country_exist == false) {
+    if (!is_country_exist) {
         m[country] = new_capital;
         cout << "Introduce new country " << country << " with capital " << new_capital << endl;
     }
 
-    if (is_country_exist == true && is_capital_same == true) {
+    if (is_country_exist && is_capital_same) {
         cout << "Country " << country << " hasn't changed its capital" << endl;
     }
 
-    if (is_country_exist == true && is_capital_same == false) {
+    if (is_country_exist && !is_capital_same) {
         string old_capital = m[country];
         m[country] = new_capital;
 
@@ -59,9 +42,9 @@ void ChangeCapital(map<string,string>& m, string country, string new_capital) {
 }
 
 // method to rename countries
-void RenameCountry(map<string, string>& m, string old_country_name, string new_country_name) {
+void RenameCountry(map<string, string>& m, const string& old_country_name, const string& new_country_name) {
     if (old_country_name == new_country_name) {
-        cout << "Incorrect rename, skip. New and old names are same" << endl;
+        cout << "Incorrect rename, skip" << endl;
     } else {
         bool is_country_exist = false;
         bool is_new_country_name_same = false;
@@ -79,7 +62,7 @@ void RenameCountry(map<string, string>& m, string old_country_name, string new_c
                 //cout << "Size map: " << m.size() << endl;
                 m.erase(key);
                 //cout << "Size map: " << m.size() << endl;
-                m[new_country_name] = value;
+                m[new_country_name] = temp_capital;
                 //cout << "Size map: " << m.size() << endl;
 
                 cout << "Country " << old_country_name << " with capital " << temp_capital
@@ -88,12 +71,12 @@ void RenameCountry(map<string, string>& m, string old_country_name, string new_c
 
         }
 
-        if (is_country_exist == false) {
-            cout << "Incorrect rename, skip. Country does not exist" << endl;
+        if (!is_country_exist) {
+            cout << "Incorrect rename, skip" << endl;
         }
 
-        if (is_new_country_name_same == true) {
-            cout << "Incorrect rename, skip. New country name already exist." << endl;
+        if (is_new_country_name_same) {
+            cout << "Incorrect rename, skip" << endl;
         }
     }
 }
@@ -110,7 +93,7 @@ void AboutCountry(const map<string, string>& m, const string& country_name) {
         }
     }
 
-    if (is_country_exists == true) {
+    if (is_country_exists) {
         cout << "Country " << country_name << " has capital " << capital_name << endl;
     } else {
         cout << "Country " << country_name << " doesn't exist" << endl;
@@ -118,7 +101,7 @@ void AboutCountry(const map<string, string>& m, const string& country_name) {
 }
 
 void Dump(const map<string, string>& m) {
-    if (m.size() == 0) {
+    if (m.empty()) {
         cout << "There are no countries in the world" << endl;
     } else {
         for (auto [key, value] : m) {
