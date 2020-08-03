@@ -37,7 +37,7 @@ void ChangeCapital(map<string,string>& m, const string& country, const string& n
         m[country] = new_capital;
 
         cout << "Country " << country << " has changed its capital from " << old_capital
-        << " to " << new_capital;
+        << " to " << new_capital << endl;
     }
 }
 
@@ -47,37 +47,26 @@ void RenameCountry(map<string, string>& m, const string& old_country_name, const
         cout << "Incorrect rename, skip" << endl;
     } else {
         bool is_country_exist = false;
-        bool is_new_country_name_same = false;
-        for (auto [key, value] : m){
-            // check, if new country name already exist in the map
-            if (key == new_country_name) {
-                is_new_country_name_same = true;
-                is_country_exist = true;
-                break;
-            }
+        bool is_new_country_already_exist = false;
 
-            if (key == old_country_name) {
-                is_country_exist = true;
-                string temp_capital = value;
-                //cout << "Size map: " << m.size() << endl;
-                m.erase(key);
-                //cout << "Size map: " << m.size() << endl;
-                m[new_country_name] = temp_capital;
-                //cout << "Size map: " << m.size() << endl;
+        if (m.count(new_country_name) == 1) {
+            is_new_country_already_exist = true;
+            cout << "Incorrect rename, skip" << endl;
+        } else if (m.count(old_country_name) == 1 && is_new_country_already_exist == false) {
+            is_country_exist = true;
+            string temp_capital = m[old_country_name];
+            //cout << "Size map: " << m.size() << endl;
+            m.erase(old_country_name);
+            //cout << "Size map: " << m.size() << endl;
+            m[new_country_name] = temp_capital;
+            //cout << "Size map: " << m.size() << endl;
 
-                cout << "Country " << old_country_name << " with capital " << temp_capital
-                     << " has been renamed to " << new_country_name << endl;
-            }
-
-        }
-
-        if (!is_country_exist) {
+            cout << "Country " << old_country_name << " with capital " << temp_capital
+                 << " has been renamed to " << new_country_name << endl;
+        } else {
             cout << "Incorrect rename, skip" << endl;
         }
 
-        if (is_new_country_name_same) {
-            cout << "Incorrect rename, skip" << endl;
-        }
     }
 }
 
