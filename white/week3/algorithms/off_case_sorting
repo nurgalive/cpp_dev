@@ -1,0 +1,56 @@
+// Сортировка без учёта регистра
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <ctype.h>
+
+using namespace std;
+
+void Print(const vector<int>& input, const string& title){
+    cout << title << ": ";
+    cout << "[";
+    for (auto v : input) {
+        cout << v << ",";
+    }
+    cout << "]";
+    cout << endl;
+}
+
+
+
+int main() {
+    vector<string> v;
+
+    int N;
+    cin >> N;
+
+    string str;
+
+    for(int i = 0; i < N; i++) {
+        cin >> str;
+        v.push_back(str);
+    }
+
+    //Print(v, "Before");
+    sort(begin(v), end(v), [](string x, string y) {
+        for (char& ch : x) {
+            ch = tolower(ch);
+        }
+
+        for (char& ch : y) {
+            ch = tolower(ch);
+        }
+
+        return (x < y);
+    });
+
+    //Print(v, "After");
+
+    for (const string& val : v) {
+        cout << val << " ";
+    }
+
+    return 0;
+}
